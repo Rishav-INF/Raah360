@@ -1,0 +1,497 @@
+{
+ "format": "raah360-venue-1",
+ "id": "demo-metro-plaza",
+ "name": "Metro Plaza (demo)",
+ "address": "Demo map \u00b7 near you",
+ "lat": 12.967611,
+ "lng": 77.615889,
+ "revision": 1,
+ "survey": 1,
+ "north": 0.0,
+ "floorHeight": 4.5,
+ "floors": [
+  {
+   "level": 0,
+   "name": "Ground floor"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "n1",
+   "name": "Main entrance",
+   "floor": 0,
+   "type": "ENTRANCE",
+   "pos": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "n2",
+   "name": "",
+   "floor": 0,
+   "type": "WAYPOINT",
+   "pos": [
+    5.455,
+    0
+   ]
+  },
+  {
+   "id": "n3",
+   "name": "",
+   "floor": 0,
+   "type": "WAYPOINT",
+   "pos": [
+    10.909,
+    0
+   ]
+  },
+  {
+   "id": "n4",
+   "name": "",
+   "floor": 0,
+   "type": "WAYPOINT",
+   "pos": [
+    16.364,
+    0
+   ]
+  },
+  {
+   "id": "n5",
+   "name": "",
+   "floor": 0,
+   "type": "WAYPOINT",
+   "pos": [
+    21.818,
+    0
+   ]
+  },
+  {
+   "id": "n6",
+   "name": "",
+   "floor": 0,
+   "type": "WAYPOINT",
+   "pos": [
+    27.273,
+    0
+   ]
+  },
+  {
+   "id": "n7",
+   "name": "",
+   "floor": 0,
+   "type": "WAYPOINT",
+   "pos": [
+    32.727,
+    0
+   ]
+  },
+  {
+   "id": "n8",
+   "name": "",
+   "floor": 0,
+   "type": "WAYPOINT",
+   "pos": [
+    38.182,
+    0
+   ]
+  },
+  {
+   "id": "n9",
+   "name": "",
+   "floor": 0,
+   "type": "WAYPOINT",
+   "pos": [
+    43.636,
+    0
+   ]
+  },
+  {
+   "id": "n10",
+   "name": "",
+   "floor": 0,
+   "type": "WAYPOINT",
+   "pos": [
+    49.091,
+    0
+   ]
+  },
+  {
+   "id": "n11",
+   "name": "",
+   "floor": 0,
+   "type": "WAYPOINT",
+   "pos": [
+    54.545,
+    0
+   ]
+  },
+  {
+   "id": "n12",
+   "name": "Food court",
+   "floor": 0,
+   "type": "WAYPOINT",
+   "pos": [
+    60,
+    0
+   ]
+  }
+ ],
+ "edges": [
+  [
+   "n1",
+   "n2"
+  ],
+  [
+   "n2",
+   "n3"
+  ],
+  [
+   "n3",
+   "n4"
+  ],
+  [
+   "n4",
+   "n5"
+  ],
+  [
+   "n5",
+   "n6"
+  ],
+  [
+   "n6",
+   "n7"
+  ],
+  [
+   "n7",
+   "n8"
+  ],
+  [
+   "n8",
+   "n9"
+  ],
+  [
+   "n9",
+   "n10"
+  ],
+  [
+   "n10",
+   "n11"
+  ],
+  [
+   "n11",
+   "n12"
+  ]
+ ],
+ "landmarks": [],
+ "pins": [
+  {
+   "id": "p1",
+   "name": "Main entrance",
+   "description": "Glass doors from the street",
+   "category": "Entrance",
+   "floor": 0,
+   "node": "n1",
+   "pos": [
+    -1.0,
+    0
+   ],
+   "facing": -90.0,
+   "image": null
+  },
+  {
+   "id": "p2",
+   "name": "Cafe Mocha",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n2",
+   "pos": [
+    5.455,
+    1.0
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p3",
+   "name": "Pharmacy",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n2",
+   "pos": [
+    5.455,
+    -1.0
+   ],
+   "facing": 180.0,
+   "image": null
+  },
+  {
+   "id": "p4",
+   "name": "Optical Point",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n3",
+   "pos": [
+    10.909,
+    1.0
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p5",
+   "name": "Sports Zone",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n3",
+   "pos": [
+    10.909,
+    -1.0
+   ],
+   "facing": 180.0,
+   "image": null
+  },
+  {
+   "id": "p6",
+   "name": "Jewellery",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n4",
+   "pos": [
+    16.364,
+    1.0
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p7",
+   "name": "Mobile Care",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n4",
+   "pos": [
+    16.364,
+    -1.0
+   ],
+   "facing": 180.0,
+   "image": null
+  },
+  {
+   "id": "p8",
+   "name": "Home Decor",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n5",
+   "pos": [
+    21.818,
+    1.0
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p9",
+   "name": "Gift Shop",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n5",
+   "pos": [
+    21.818,
+    -1.0
+   ],
+   "facing": 180.0,
+   "image": null
+  },
+  {
+   "id": "p10",
+   "name": "Washrooms",
+   "description": "",
+   "category": "Facility",
+   "floor": 0,
+   "node": "n6",
+   "pos": [
+    27.273,
+    1.0
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p11",
+   "name": "Escalator",
+   "description": "Up to the first floor",
+   "category": "Stairs",
+   "floor": 0,
+   "node": "n6",
+   "pos": [
+    27.273,
+    -1.0
+   ],
+   "facing": 180.0,
+   "image": null
+  },
+  {
+   "id": "p12",
+   "name": "Bakery",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n7",
+   "pos": [
+    32.727,
+    1.0
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p13",
+   "name": "Salon",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n7",
+   "pos": [
+    32.727,
+    -1.0
+   ],
+   "facing": 180.0,
+   "image": null
+  },
+  {
+   "id": "p14",
+   "name": "Supermarket",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n8",
+   "pos": [
+    38.182,
+    1.0
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p15",
+   "name": "Kids Wear",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n8",
+   "pos": [
+    38.182,
+    -1.0
+   ],
+   "facing": 180.0,
+   "image": null
+  },
+  {
+   "id": "p16",
+   "name": "Ethnic Wear",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n9",
+   "pos": [
+    43.636,
+    1.0
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p17",
+   "name": "Watch Gallery",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n9",
+   "pos": [
+    43.636,
+    -1.0
+   ],
+   "facing": 180.0,
+   "image": null
+  },
+  {
+   "id": "p18",
+   "name": "Music Store",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n10",
+   "pos": [
+    49.091,
+    1.0
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p19",
+   "name": "Bags & More",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n10",
+   "pos": [
+    49.091,
+    -1.0
+   ],
+   "facing": 180.0,
+   "image": null
+  },
+  {
+   "id": "p20",
+   "name": "Ice Cream Bar",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n11",
+   "pos": [
+    54.545,
+    1.0
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p21",
+   "name": "Perfume Studio",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n11",
+   "pos": [
+    54.545,
+    -1.0
+   ],
+   "facing": 180.0,
+   "image": null
+  },
+  {
+   "id": "p22",
+   "name": "Food court",
+   "description": "Food court with shared seating",
+   "category": "Food",
+   "floor": 0,
+   "node": "n12",
+   "pos": [
+    61.0,
+    0
+   ],
+   "facing": 90.0,
+   "image": null
+  }
+ ]
+}

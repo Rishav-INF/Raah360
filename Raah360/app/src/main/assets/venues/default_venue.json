@@ -1,0 +1,1234 @@
+{
+ "format": "raah360-venue-1",
+ "id": "atrium-blr",
+ "name": "WeWork",
+ "address": "Bengaluru",
+ "lat": 12.973611,
+ "lng": 77.608889,
+ "revision": 2,
+ "survey": 9,
+ "north": 194.0,
+ "floors": [
+  {
+   "level": 0,
+   "name": "Ground floor"
+  },
+  {
+   "level": 1,
+   "name": "Floor 1"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "cAD",
+   "name": "Room A corner",
+   "floor": 1,
+   "type": "CORNER",
+   "pos": [
+    1.249,
+    -1.2
+   ]
+  },
+  {
+   "id": "a_roomA",
+   "name": "Room A",
+   "floor": 1,
+   "type": "ROOM",
+   "pos": [
+    3.25,
+    -1.2
+   ]
+  },
+  {
+   "id": "a_ext",
+   "name": "Fire extinguishers",
+   "floor": 1,
+   "type": "WAYPOINT",
+   "pos": [
+    6.6,
+    -1.2
+   ]
+  },
+  {
+   "id": "a_scalers",
+   "name": "The Scalers",
+   "floor": 1,
+   "type": "ROOM",
+   "pos": [
+    9.25,
+    -1.2
+   ]
+  },
+  {
+   "id": "a_a3",
+   "name": "Room A3",
+   "floor": 1,
+   "type": "ROOM",
+   "pos": [
+    15.0,
+    -1.2
+   ]
+  },
+  {
+   "id": "a_a4",
+   "name": "Room A4",
+   "floor": 1,
+   "type": "ROOM",
+   "pos": [
+    20.9,
+    -1.2
+   ]
+  },
+  {
+   "id": "cAB",
+   "name": "Room F corner",
+   "floor": 1,
+   "type": "CORNER",
+   "pos": [
+    22.64,
+    -1.2
+   ]
+  },
+  {
+   "id": "b_roomF",
+   "name": "Room F",
+   "floor": 1,
+   "type": "ROOM",
+   "pos": [
+    22.64,
+    -1.5
+   ]
+  },
+  {
+   "id": "b_roomG",
+   "name": "Room G",
+   "floor": 1,
+   "type": "ROOM",
+   "pos": [
+    22.64,
+    -3.5
+   ]
+  },
+  {
+   "id": "b_fire",
+   "name": "Fire exit",
+   "floor": 1,
+   "type": "ENTRANCE",
+   "pos": [
+    22.64,
+    -5.75
+   ]
+  },
+  {
+   "id": "b_shafts",
+   "name": "Service shafts",
+   "floor": 1,
+   "type": "WAYPOINT",
+   "pos": [
+    22.64,
+    -8.0
+   ]
+  },
+  {
+   "id": "cBC",
+   "name": "Staircase corner",
+   "floor": 1,
+   "type": "CORNER",
+   "pos": [
+    22.64,
+    -8.409
+   ]
+  },
+  {
+   "id": "c_stairs",
+   "name": "Main staircase",
+   "floor": 1,
+   "type": "STAIRS",
+   "pos": [
+    22.341,
+    -8.432
+   ]
+  },
+  {
+   "id": "c_wash",
+   "name": "Washroom passage",
+   "floor": 1,
+   "type": "FACILITY",
+   "pos": [
+    21.554,
+    -8.492
+   ]
+  },
+  {
+   "id": "c_c1",
+   "name": "Room C1",
+   "floor": 1,
+   "type": "ROOM",
+   "pos": [
+    17.516,
+    -8.803
+   ]
+  },
+  {
+   "id": "c_c2",
+   "name": "Room C2",
+   "floor": 1,
+   "type": "ROOM",
+   "pos": [
+    12.033,
+    -9.226
+   ]
+  },
+  {
+   "id": "c_c3",
+   "name": "Room C3",
+   "floor": 1,
+   "type": "ROOM",
+   "pos": [
+    7.546,
+    -9.571
+   ]
+  },
+  {
+   "id": "c_c4",
+   "name": "Room C4",
+   "floor": 1,
+   "type": "ROOM",
+   "pos": [
+    3.807,
+    -9.859
+   ]
+  },
+  {
+   "id": "cCD",
+   "name": "Escalator corner",
+   "floor": 1,
+   "type": "CORNER",
+   "pos": [
+    1.599,
+    -10.029
+   ]
+  },
+  {
+   "id": "d_escalator",
+   "name": "Escalator",
+   "floor": 1,
+   "type": "ESCALATOR",
+   "pos": [
+    1.587,
+    -9.729
+   ]
+  },
+  {
+   "id": "d_booths",
+   "name": "Green booths",
+   "floor": 1,
+   "type": "WAYPOINT",
+   "pos": [
+    1.45,
+    -6.277
+   ]
+  },
+  {
+   "id": "d_broom",
+   "name": "B rooms",
+   "floor": 1,
+   "type": "ROOM",
+   "pos": [
+    1.283,
+    -2.08
+   ]
+  },
+  {
+   "id": "g_c0",
+   "name": "",
+   "floor": 0,
+   "type": "CORNER",
+   "pos": [
+    1.249,
+    -1.2
+   ]
+  },
+  {
+   "id": "g_c1",
+   "name": "",
+   "floor": 0,
+   "type": "CORNER",
+   "pos": [
+    22.64,
+    -1.2
+   ]
+  },
+  {
+   "id": "g_c2",
+   "name": "",
+   "floor": 0,
+   "type": "CORNER",
+   "pos": [
+    22.64,
+    -8.409
+   ]
+  },
+  {
+   "id": "g_c3",
+   "name": "",
+   "floor": 0,
+   "type": "CORNER",
+   "pos": [
+    1.599,
+    -10.029
+   ]
+  },
+  {
+   "id": "g_lifts",
+   "name": "Lifts",
+   "floor": 0,
+   "type": "LIFT",
+   "pos": [
+    2.425,
+    -1.2
+   ]
+  },
+  {
+   "id": "g_pantry",
+   "name": "Pantry",
+   "floor": 0,
+   "type": "FACILITY",
+   "pos": [
+    21.85,
+    -1.2
+   ]
+  },
+  {
+   "id": "g_fire",
+   "name": "Fire exit",
+   "floor": 0,
+   "type": "ENTRANCE",
+   "pos": [
+    22.64,
+    -5.75
+   ]
+  },
+  {
+   "id": "g_c_stairs",
+   "name": "Staircase foot",
+   "floor": 0,
+   "type": "JUNCTION",
+   "pos": [
+    16.17,
+    -8.907
+   ]
+  },
+  {
+   "id": "g_roomG",
+   "name": "Room G",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    12.132,
+    -9.218
+   ]
+  },
+  {
+   "id": "g_roomF",
+   "name": "Room F",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    8.643,
+    -9.487
+   ]
+  },
+  {
+   "id": "g_roomE",
+   "name": "Room E",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    5.153,
+    -9.755
+   ]
+  },
+  {
+   "id": "g_roomD",
+   "name": "Room D",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    1.898,
+    -10.006
+   ]
+  },
+  {
+   "id": "g_d_sec",
+   "name": "Security desk",
+   "floor": 0,
+   "type": "FACILITY",
+   "pos": [
+    1.569,
+    -9.275
+   ]
+  },
+  {
+   "id": "g_entrance",
+   "name": "Main entrance",
+   "floor": 0,
+   "type": "ENTRANCE",
+   "pos": [
+    1.47,
+    -6.777
+   ]
+  },
+  {
+   "id": "g_reg",
+   "name": "Registration desk",
+   "floor": 0,
+   "type": "FACILITY",
+   "pos": [
+    1.379,
+    -4.479
+   ]
+  },
+  {
+   "id": "g_d_esc",
+   "name": "Escalator side",
+   "floor": 0,
+   "type": "JUNCTION",
+   "pos": [
+    1.291,
+    -2.281
+   ]
+  },
+  {
+   "id": "g_wash",
+   "name": "Washrooms",
+   "floor": 0,
+   "type": "FACILITY",
+   "pos": [
+    1.26,
+    -1.5
+   ]
+  },
+  {
+   "id": "g_zone",
+   "name": "Seating zone",
+   "floor": 0,
+   "type": "WAYPOINT",
+   "pos": [
+    12.032,
+    -5.209
+   ]
+  },
+  {
+   "id": "g_esc",
+   "name": "Escalator foot",
+   "floor": 0,
+   "type": "ESCALATOR",
+   "pos": [
+    5.988,
+    -2.094
+   ]
+  },
+  {
+   "id": "g_stairs",
+   "name": "Staircase bottom",
+   "floor": 0,
+   "type": "STAIRS",
+   "pos": [
+    15.641,
+    -5.939
+   ]
+  },
+  {
+   "id": "g_stage",
+   "name": "Stage",
+   "floor": 0,
+   "type": "WAYPOINT",
+   "pos": [
+    8.173,
+    -4.209
+   ]
+  }
+ ],
+ "edges": [
+  [
+   "cAD",
+   "a_roomA"
+  ],
+  [
+   "a_roomA",
+   "a_ext"
+  ],
+  [
+   "a_ext",
+   "a_scalers"
+  ],
+  [
+   "a_scalers",
+   "a_a3"
+  ],
+  [
+   "a_a3",
+   "a_a4"
+  ],
+  [
+   "a_a4",
+   "cAB"
+  ],
+  [
+   "cAB",
+   "b_roomF"
+  ],
+  [
+   "b_roomF",
+   "b_roomG"
+  ],
+  [
+   "b_roomG",
+   "b_fire"
+  ],
+  [
+   "b_fire",
+   "b_shafts"
+  ],
+  [
+   "b_shafts",
+   "cBC"
+  ],
+  [
+   "cBC",
+   "c_stairs"
+  ],
+  [
+   "c_stairs",
+   "c_wash"
+  ],
+  [
+   "c_wash",
+   "c_c1"
+  ],
+  [
+   "c_c1",
+   "c_c2"
+  ],
+  [
+   "c_c2",
+   "c_c3"
+  ],
+  [
+   "c_c3",
+   "c_c4"
+  ],
+  [
+   "c_c4",
+   "cCD"
+  ],
+  [
+   "cCD",
+   "d_escalator"
+  ],
+  [
+   "d_escalator",
+   "d_booths"
+  ],
+  [
+   "d_booths",
+   "d_broom"
+  ],
+  [
+   "d_broom",
+   "cAD"
+  ],
+  [
+   "g_c0",
+   "g_lifts"
+  ],
+  [
+   "g_lifts",
+   "g_pantry"
+  ],
+  [
+   "g_pantry",
+   "g_c1"
+  ],
+  [
+   "g_c1",
+   "g_fire"
+  ],
+  [
+   "g_fire",
+   "g_c2"
+  ],
+  [
+   "g_c2",
+   "g_c_stairs"
+  ],
+  [
+   "g_c_stairs",
+   "g_roomG"
+  ],
+  [
+   "g_roomG",
+   "g_roomF"
+  ],
+  [
+   "g_roomF",
+   "g_roomE"
+  ],
+  [
+   "g_roomE",
+   "g_roomD"
+  ],
+  [
+   "g_roomD",
+   "g_c3"
+  ],
+  [
+   "g_c3",
+   "g_d_sec"
+  ],
+  [
+   "g_d_sec",
+   "g_entrance"
+  ],
+  [
+   "g_entrance",
+   "g_reg"
+  ],
+  [
+   "g_reg",
+   "g_d_esc"
+  ],
+  [
+   "g_d_esc",
+   "g_wash"
+  ],
+  [
+   "g_wash",
+   "g_c0"
+  ],
+  [
+   "g_d_esc",
+   "g_esc"
+  ],
+  [
+   "g_c_stairs",
+   "g_stairs"
+  ],
+  [
+   "g_zone",
+   "g_esc"
+  ],
+  [
+   "g_zone",
+   "g_stairs"
+  ],
+  [
+   "g_zone",
+   "g_stage"
+  ],
+  [
+   "g_zone",
+   "g_roomF"
+  ],
+  [
+   "g_zone",
+   "g_reg"
+  ],
+  [
+   "g_zone",
+   "g_pantry"
+  ],
+  [
+   "g_stairs",
+   "c_stairs",
+   "STAIRS"
+  ],
+  [
+   "g_esc",
+   "d_escalator",
+   "ESCALATOR"
+  ]
+ ],
+ "landmarks": [
+  {
+   "id": "M1",
+   "name": "Marker M1 \u00b7 Room A",
+   "floor": 1,
+   "pos": [
+    2.0,
+    0.0
+   ],
+   "yaw": 180.0,
+   "width": 0.18,
+   "image": "asset:markers/M1.png",
+   "located": false,
+   "hint": "Tape on Room A's glass, chest height, 2 m from the A-D corner."
+  },
+  {
+   "id": "M2",
+   "name": "Marker M2 \u00b7 The Scalers",
+   "floor": 1,
+   "pos": [
+    8.0,
+    0.0
+   ],
+   "yaw": 180.0,
+   "width": 0.18,
+   "image": "asset:markers/M2.png",
+   "located": false,
+   "hint": "Tape beside The Scalers door, chest height."
+  },
+  {
+   "id": "M3",
+   "name": "Marker M3 \u00b7 Room A4",
+   "floor": 1,
+   "pos": [
+    21.5,
+    0.0
+   ],
+   "yaw": 180.0,
+   "width": 0.18,
+   "image": "asset:markers/M3.png",
+   "located": false,
+   "hint": "Tape on Room A4's glass near the A-B corner."
+  },
+  {
+   "id": "M4",
+   "name": "Marker M4 \u00b7 Fire exit",
+   "floor": 1,
+   "pos": [
+    23.84,
+    -5.0
+   ],
+   "yaw": -90.0,
+   "width": 0.18,
+   "image": "asset:markers/M4.png",
+   "located": false,
+   "hint": "Tape on the wall just left of the Fire Exit door."
+  },
+  {
+   "id": "M5",
+   "name": "Marker M5 \u00b7 Washrooms",
+   "floor": 1,
+   "pos": [
+    21.248,
+    -9.72
+   ],
+   "yaw": -4.4,
+   "width": 0.18,
+   "image": "asset:markers/M5.png",
+   "located": false,
+   "hint": "Tape on the pillar at the washroom passage entrance."
+  },
+  {
+   "id": "M6",
+   "name": "Marker M6 \u00b7 Room C2",
+   "floor": 1,
+   "pos": [
+    12.125,
+    -10.422
+   ],
+   "yaw": -4.4,
+   "width": 0.18,
+   "image": "asset:markers/M6.png",
+   "located": false,
+   "hint": "Tape on Room C2's glass, middle of side C."
+  },
+  {
+   "id": "M7",
+   "name": "Marker M7 \u00b7 Room C4",
+   "floor": 1,
+   "pos": [
+    3.401,
+    -11.094
+   ],
+   "yaw": -4.4,
+   "width": 0.18,
+   "image": "asset:markers/M7.png",
+   "located": false,
+   "hint": "Tape on Room C4's glass near the C-D corner."
+  },
+  {
+   "id": "M8",
+   "name": "Marker M8 \u00b7 Green booths",
+   "floor": 1,
+   "pos": [
+    0.251,
+    -6.325
+   ],
+   "yaw": 87.7,
+   "width": 0.18,
+   "image": "asset:markers/M8.png",
+   "located": false,
+   "hint": "Tape on the wall above the green booths."
+  }
+ ],
+ "pins": [
+  {
+   "id": "p_roomA",
+   "name": "Room A",
+   "description": "Corner room with a big 'A' on the glass.",
+   "category": "Room",
+   "floor": 1,
+   "node": "a_roomA",
+   "pos": [
+    3.25,
+    -0.5
+   ],
+   "facing": 0.0,
+   "image": null,
+   "signature": null
+  },
+  {
+   "id": "p_scalers",
+   "name": "The Scalers",
+   "description": "Glass door with the company name.",
+   "category": "Room",
+   "floor": 1,
+   "node": "a_scalers",
+   "pos": [
+    9.25,
+    -0.5
+   ],
+   "facing": 0.0,
+   "image": null,
+   "signature": null
+  },
+  {
+   "id": "p_a3",
+   "name": "Room A3",
+   "description": "Frosted glass with a diamond decal, no label.",
+   "category": "Room",
+   "floor": 1,
+   "node": "a_a3",
+   "pos": [
+    15.0,
+    -0.5
+   ],
+   "facing": 0.0,
+   "image": null,
+   "signature": null
+  },
+  {
+   "id": "p_a4",
+   "name": "Room A4",
+   "description": "Small repeating logo pattern on the glass.",
+   "category": "Room",
+   "floor": 1,
+   "node": "a_a4",
+   "pos": [
+    20.9,
+    -0.5
+   ],
+   "facing": 0.0,
+   "image": null,
+   "signature": null
+  },
+  {
+   "id": "p_roomF",
+   "name": "Room F",
+   "description": "Glass room behind the lounge mattresses.",
+   "category": "Room",
+   "floor": 1,
+   "node": "b_roomF",
+   "pos": [
+    23.34,
+    -1.25
+   ],
+   "facing": 90.0,
+   "image": null,
+   "signature": null
+  },
+  {
+   "id": "p_roomG",
+   "name": "Room G",
+   "description": "Next to Room F.",
+   "category": "Room",
+   "floor": 1,
+   "node": "b_roomG",
+   "pos": [
+    23.34,
+    -3.5
+   ],
+   "facing": 90.0,
+   "image": null,
+   "signature": null
+  },
+  {
+   "id": "p_fire",
+   "name": "Fire exit (B stair / lift lobby)",
+   "description": "Black double door marked Emergency Exit.",
+   "category": "Exit",
+   "floor": 1,
+   "node": "b_fire",
+   "pos": [
+    23.34,
+    -5.75
+   ],
+   "facing": 90.0,
+   "image": null,
+   "signature": null
+  },
+  {
+   "id": "p_stairs",
+   "name": "Main staircase (to ground floor)",
+   "description": "Wide wooden staircase going down into the atrium.",
+   "category": "Stairs",
+   "floor": 1,
+   "node": "c_stairs",
+   "pos": [
+    22.674,
+    -7.403
+   ],
+   "facing": -4.4,
+   "image": null,
+   "signature": null
+  },
+  {
+   "id": "p_wash",
+   "name": "Washrooms",
+   "description": "Narrow side passage with four glass-fronted doors.",
+   "category": "Facility",
+   "floor": 1,
+   "node": "c_wash",
+   "pos": [
+    21.608,
+    -9.19
+   ],
+   "facing": 175.6,
+   "image": null,
+   "signature": null
+  },
+  {
+   "id": "p_c1",
+   "name": "Room C1",
+   "description": "Glass room on side C.",
+   "category": "Room",
+   "floor": 1,
+   "node": "c_c1",
+   "pos": [
+    17.57,
+    -9.501
+   ],
+   "facing": 175.6,
+   "image": null,
+   "signature": null
+  },
+  {
+   "id": "p_c2",
+   "name": "Room C2",
+   "description": "Glass room on side C.",
+   "category": "Room",
+   "floor": 1,
+   "node": "c_c2",
+   "pos": [
+    12.086,
+    -9.924
+   ],
+   "facing": 175.6,
+   "image": null,
+   "signature": null
+  },
+  {
+   "id": "p_c3",
+   "name": "Room C3",
+   "description": "Glass room on side C.",
+   "category": "Room",
+   "floor": 1,
+   "node": "c_c3",
+   "pos": [
+    7.599,
+    -10.269
+   ],
+   "facing": 175.6,
+   "image": null,
+   "signature": null
+  },
+  {
+   "id": "p_c4",
+   "name": "Room C4",
+   "description": "Small rooms near the C-D corner.",
+   "category": "Room",
+   "floor": 1,
+   "node": "c_c4",
+   "pos": [
+    3.86,
+    -10.557
+   ],
+   "facing": 175.6,
+   "image": null,
+   "signature": null
+  },
+  {
+   "id": "p_escalator",
+   "name": "Escalator (down)",
+   "description": "Escalator beside the glass facade, carpet landing.",
+   "category": "Stairs",
+   "floor": 1,
+   "node": "d_escalator",
+   "pos": [
+    2.588,
+    -9.734
+   ],
+   "facing": 87.7,
+   "image": null,
+   "signature": null
+  },
+  {
+   "id": "p_booths",
+   "name": "Green seating booths",
+   "description": "Green booths; high bar table along the railing opposite.",
+   "category": "Seating",
+   "floor": 1,
+   "node": "d_booths",
+   "pos": [
+    1.25,
+    -6.286
+   ],
+   "facing": -92.3,
+   "image": null,
+   "signature": null
+  },
+  {
+   "id": "p_bar",
+   "name": "High bar table",
+   "description": "Bar table with stools along the atrium railing.",
+   "category": "Seating",
+   "floor": 1,
+   "node": "d_booths",
+   "pos": [
+    1.95,
+    -6.257
+   ],
+   "facing": 87.7,
+   "image": null,
+   "signature": null
+  },
+  {
+   "id": "p_broom",
+   "name": "B rooms",
+   "description": "Glass rooms with a big 'B' decal.",
+   "category": "Room",
+   "floor": 1,
+   "node": "d_broom",
+   "pos": [
+    0.584,
+    -2.108
+   ],
+   "facing": -92.3,
+   "image": null,
+   "signature": null
+  },
+  {
+   "id": "p0_entrance",
+   "name": "Main entrance",
+   "description": "Glass main door with entry gates.",
+   "category": "Entrance",
+   "floor": 0,
+   "node": "g_entrance",
+   "pos": [
+    0.67,
+    -6.809
+   ],
+   "facing": -92.3,
+   "image": null
+  },
+  {
+   "id": "p0_security",
+   "name": "Security desk",
+   "description": "Left of the main entrance.",
+   "category": "Facility",
+   "floor": 0,
+   "node": "g_d_sec",
+   "pos": [
+    2.76,
+    -9.028
+   ],
+   "facing": -92.3,
+   "image": null
+  },
+  {
+   "id": "p0_reg",
+   "name": "Registration desk",
+   "description": "Event desk, right of the entrance.",
+   "category": "Facility",
+   "floor": 0,
+   "node": "g_reg",
+   "pos": [
+    2.678,
+    -4.427
+   ],
+   "facing": -92.3,
+   "image": null
+  },
+  {
+   "id": "p0_wash",
+   "name": "Washrooms",
+   "description": "Ground-floor washrooms.",
+   "category": "Facility",
+   "floor": 0,
+   "node": "g_wash",
+   "pos": [
+    0.542,
+    -1.039
+   ],
+   "facing": -92.3,
+   "image": null
+  },
+  {
+   "id": "p0_esc",
+   "name": "Escalators (up to Floor 1)",
+   "description": "Two escalators along side D, foot at the pantry end.",
+   "category": "Stairs",
+   "floor": 0,
+   "node": "g_esc",
+   "pos": [
+    5.988,
+    -2.094
+   ],
+   "facing": 177.7,
+   "image": null
+  },
+  {
+   "id": "p0_stairs",
+   "name": "Main staircase (bottom)",
+   "description": "Wooden staircase up to Floor 1.",
+   "category": "Stairs",
+   "floor": 0,
+   "node": "g_stairs",
+   "pos": [
+    15.641,
+    -5.939
+   ],
+   "facing": 85.6,
+   "image": null
+  },
+  {
+   "id": "p0_pantry",
+   "name": "Pantry + team seating",
+   "description": "Pantry counter and team tables beyond side A.",
+   "category": "Food",
+   "floor": 0,
+   "node": "g_pantry",
+   "pos": [
+    21.85,
+    -0.5
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p0_lifts",
+   "name": "Lifts + community desk",
+   "description": "Lifts and the community desk.",
+   "category": "Facility",
+   "floor": 0,
+   "node": "g_lifts",
+   "pos": [
+    2.425,
+    -0.5
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p0_d",
+   "name": "Room D",
+   "description": "Ground-floor room.",
+   "category": "Room",
+   "floor": 0,
+   "node": "g_roomD",
+   "pos": [
+    1.936,
+    -10.705
+   ],
+   "facing": 175.6,
+   "image": null
+  },
+  {
+   "id": "p0_e",
+   "name": "Room E",
+   "description": "Ground-floor room.",
+   "category": "Room",
+   "floor": 0,
+   "node": "g_roomE",
+   "pos": [
+    5.207,
+    -10.453
+   ],
+   "facing": 175.6,
+   "image": null
+  },
+  {
+   "id": "p0_f",
+   "name": "Room F",
+   "description": "Ground-floor room.",
+   "category": "Room",
+   "floor": 0,
+   "node": "g_roomF",
+   "pos": [
+    8.696,
+    -10.185
+   ],
+   "facing": 175.6,
+   "image": null
+  },
+  {
+   "id": "p0_g",
+   "name": "Room G",
+   "description": "Ground-floor room.",
+   "category": "Room",
+   "floor": 0,
+   "node": "g_roomG",
+   "pos": [
+    12.186,
+    -9.916
+   ],
+   "facing": 175.6,
+   "image": null
+  },
+  {
+   "id": "p0_fire",
+   "name": "Fire exit",
+   "description": "Stair + lift lobby behind this door.",
+   "category": "Exit",
+   "floor": 0,
+   "node": "g_fire",
+   "pos": [
+    23.34,
+    -5.75
+   ],
+   "facing": 90.0,
+   "image": null
+  },
+  {
+   "id": "p0_stage",
+   "name": "Stage",
+   "description": "Event stage facing the staircase.",
+   "category": "Facility",
+   "floor": 0,
+   "node": "g_stage",
+   "pos": [
+    8.173,
+    -4.209
+   ],
+   "facing": 87.7,
+   "image": null
+  },
+  {
+   "id": "p0_zone",
+   "name": "Seating zone",
+   "description": "Desks and chairs in the atrium.",
+   "category": "Seating",
+   "floor": 0,
+   "node": "g_zone",
+   "pos": [
+    12.032,
+    -5.209
+   ],
+   "facing": null,
+   "image": null
+  }
+ ]
+}

@@ -1,0 +1,585 @@
+{
+ "format": "raah360-venue-1",
+ "id": "demo-orchid-mall",
+ "name": "Orchid Mall (demo)",
+ "address": "Demo map \u00b7 near you",
+ "lat": 12.978111,
+ "lng": 77.611889,
+ "revision": 1,
+ "survey": 1,
+ "north": 0.0,
+ "floorHeight": 4.5,
+ "floors": [
+  {
+   "level": 0,
+   "name": "Ground floor"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "n1",
+   "name": "",
+   "floor": 0,
+   "type": "CORNER",
+   "pos": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "n2",
+   "name": "Fashion Hub",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    6.857,
+    0.0
+   ]
+  },
+  {
+   "id": "n3",
+   "name": "Shoe Corner",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    13.714,
+    0.0
+   ]
+  },
+  {
+   "id": "n4",
+   "name": "Main entrance",
+   "floor": 0,
+   "type": "ENTRANCE",
+   "pos": [
+    20.571,
+    0.0
+   ]
+  },
+  {
+   "id": "n5",
+   "name": "Book Nook",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    27.429,
+    0.0
+   ]
+  },
+  {
+   "id": "n6",
+   "name": "Escalator",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    34.286,
+    0.0
+   ]
+  },
+  {
+   "id": "n7",
+   "name": "Tech Store",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    41.143,
+    0.0
+   ]
+  },
+  {
+   "id": "n8",
+   "name": "",
+   "floor": 0,
+   "type": "CORNER",
+   "pos": [
+    48,
+    0
+   ]
+  },
+  {
+   "id": "n9",
+   "name": "Washrooms",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    48.0,
+    6.0
+   ]
+  },
+  {
+   "id": "n10",
+   "name": "Toy World",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    48.0,
+    12.0
+   ]
+  },
+  {
+   "id": "n11",
+   "name": "Cafe Mocha",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    48.0,
+    18.0
+   ]
+  },
+  {
+   "id": "n12",
+   "name": "",
+   "floor": 0,
+   "type": "CORNER",
+   "pos": [
+    48,
+    24
+   ]
+  },
+  {
+   "id": "n13",
+   "name": "Pharmacy",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    41.143,
+    24.0
+   ]
+  },
+  {
+   "id": "n14",
+   "name": "Optical Point",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    34.286,
+    24.0
+   ]
+  },
+  {
+   "id": "n15",
+   "name": "Food court",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    27.429,
+    24.0
+   ]
+  },
+  {
+   "id": "n16",
+   "name": "Sports Zone",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    20.571,
+    24.0
+   ]
+  },
+  {
+   "id": "n17",
+   "name": "Jewellery",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    13.714,
+    24.0
+   ]
+  },
+  {
+   "id": "n18",
+   "name": "Mobile Care",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    6.857,
+    24.0
+   ]
+  },
+  {
+   "id": "n19",
+   "name": "",
+   "floor": 0,
+   "type": "CORNER",
+   "pos": [
+    0,
+    24
+   ]
+  },
+  {
+   "id": "n20",
+   "name": "Fire exit",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    0.0,
+    18.0
+   ]
+  },
+  {
+   "id": "n21",
+   "name": "Home Decor",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    0.0,
+    12.0
+   ]
+  },
+  {
+   "id": "n22",
+   "name": "Gift Shop",
+   "floor": 0,
+   "type": "ROOM",
+   "pos": [
+    0.0,
+    6.0
+   ]
+  }
+ ],
+ "edges": [
+  [
+   "n1",
+   "n2"
+  ],
+  [
+   "n2",
+   "n3"
+  ],
+  [
+   "n3",
+   "n4"
+  ],
+  [
+   "n4",
+   "n5"
+  ],
+  [
+   "n5",
+   "n6"
+  ],
+  [
+   "n6",
+   "n7"
+  ],
+  [
+   "n7",
+   "n8"
+  ],
+  [
+   "n8",
+   "n9"
+  ],
+  [
+   "n9",
+   "n10"
+  ],
+  [
+   "n10",
+   "n11"
+  ],
+  [
+   "n11",
+   "n12"
+  ],
+  [
+   "n12",
+   "n13"
+  ],
+  [
+   "n13",
+   "n14"
+  ],
+  [
+   "n14",
+   "n15"
+  ],
+  [
+   "n15",
+   "n16"
+  ],
+  [
+   "n16",
+   "n17"
+  ],
+  [
+   "n17",
+   "n18"
+  ],
+  [
+   "n18",
+   "n19"
+  ],
+  [
+   "n19",
+   "n20"
+  ],
+  [
+   "n20",
+   "n21"
+  ],
+  [
+   "n21",
+   "n22"
+  ],
+  [
+   "n22",
+   "n1"
+  ]
+ ],
+ "landmarks": [],
+ "pins": [
+  {
+   "id": "p1",
+   "name": "Fashion Hub",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n2",
+   "pos": [
+    6.857,
+    -1.0
+   ],
+   "facing": 180.0,
+   "image": null
+  },
+  {
+   "id": "p2",
+   "name": "Shoe Corner",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n3",
+   "pos": [
+    13.714,
+    -1.0
+   ],
+   "facing": 180.0,
+   "image": null
+  },
+  {
+   "id": "p3",
+   "name": "Main entrance",
+   "description": "",
+   "category": "Entrance",
+   "floor": 0,
+   "node": "n4",
+   "pos": [
+    20.571,
+    -1.0
+   ],
+   "facing": 180.0,
+   "image": null
+  },
+  {
+   "id": "p4",
+   "name": "Book Nook",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n5",
+   "pos": [
+    27.429,
+    -1.0
+   ],
+   "facing": 180.0,
+   "image": null
+  },
+  {
+   "id": "p5",
+   "name": "Escalator",
+   "description": "Up to the first floor",
+   "category": "Stairs",
+   "floor": 0,
+   "node": "n6",
+   "pos": [
+    34.286,
+    1.0
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p6",
+   "name": "Tech Store",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n7",
+   "pos": [
+    41.143,
+    -1.0
+   ],
+   "facing": 180.0,
+   "image": null
+  },
+  {
+   "id": "p7",
+   "name": "Washrooms",
+   "description": "",
+   "category": "Facility",
+   "floor": 0,
+   "node": "n9",
+   "pos": [
+    49.0,
+    6.0
+   ],
+   "facing": 90.0,
+   "image": null
+  },
+  {
+   "id": "p8",
+   "name": "Toy World",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n10",
+   "pos": [
+    49.0,
+    12.0
+   ],
+   "facing": 90.0,
+   "image": null
+  },
+  {
+   "id": "p9",
+   "name": "Cafe Mocha",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n11",
+   "pos": [
+    49.0,
+    18.0
+   ],
+   "facing": 90.0,
+   "image": null
+  },
+  {
+   "id": "p10",
+   "name": "Pharmacy",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n13",
+   "pos": [
+    41.143,
+    25.0
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p11",
+   "name": "Optical Point",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n14",
+   "pos": [
+    34.286,
+    25.0
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p12",
+   "name": "Food court",
+   "description": "",
+   "category": "Food",
+   "floor": 0,
+   "node": "n15",
+   "pos": [
+    27.429,
+    25.0
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p13",
+   "name": "Sports Zone",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n16",
+   "pos": [
+    20.571,
+    25.0
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p14",
+   "name": "Jewellery",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n17",
+   "pos": [
+    13.714,
+    25.0
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p15",
+   "name": "Mobile Care",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n18",
+   "pos": [
+    6.857,
+    25.0
+   ],
+   "facing": 0.0,
+   "image": null
+  },
+  {
+   "id": "p16",
+   "name": "Fire exit",
+   "description": "",
+   "category": "Exit",
+   "floor": 0,
+   "node": "n20",
+   "pos": [
+    -1.0,
+    18.0
+   ],
+   "facing": -90.0,
+   "image": null
+  },
+  {
+   "id": "p17",
+   "name": "Home Decor",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n21",
+   "pos": [
+    -1.0,
+    12.0
+   ],
+   "facing": -90.0,
+   "image": null
+  },
+  {
+   "id": "p18",
+   "name": "Gift Shop",
+   "description": "",
+   "category": "Shop",
+   "floor": 0,
+   "node": "n22",
+   "pos": [
+    -1.0,
+    6.0
+   ],
+   "facing": -90.0,
+   "image": null
+  }
+ ]
+}

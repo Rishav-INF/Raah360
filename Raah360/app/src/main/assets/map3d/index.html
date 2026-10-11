@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Raah360 3D map</title>
+<style>
+html,body{margin:0;height:100%;background:#0E1116;overflow:hidden}
+#c{position:fixed;left:0;top:0;width:100vw;height:100vh;display:block;touch-action:none}
+#err{display:none;color:#F2F4F7;font:14px sans-serif;padding:16px}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="err">The 3D view could not start on this phone.</div>
+<script src="three.min.js"></script>
+<script src="OrbitControls.js"></script>
+<script>
+/*
+ * Atrium building model (survey v1), driven by the app through window.R3:
+ *   setVenue({id,nodes,edges,pins}) (any building other than the surveyed atrium is drawn from its map data),
+ *   setPlaces([{id,name,x,y,f}]), setStart(x,y,f|null), setDest(id|null), setFloor(f), setTrail([[x,y],...]|null), setWrong(bool),
+ *   setRoute([[x,y],...]|null), setProgress(s), setUser(x,y,heading|null), view(mode)
+ * Map coordinates are the app's: metres, origin = Room A corner, x along side A, rooms on +y, corridor on −y,
+ * headings compass-style (0 = +y, 90 = +x). Calls back Android.onTap(x,y), Android.onGesture().
+ */
+(function(){
+const bridge = window.Android || {onTap(){}, onGesture(){}, onReady(){}};
+if(!window.THREE||!THREE.OrbitControls){document.getElementById('err').style.display='block';return;}
+
+/* ---------- survey data (metres) ---------- */
+const FL=3.6, CUR=1, DEPTH=4, CW=2.4, RH=3.0;
+const LEN=[23.84,9.52,23.46,11.33];           // sides A,B,C,D
+const P0=[0,0], P1=[LEN[0],0], P2=[LEN[0],LEN[1]];
+const dd=Math.hypot(P2[0],P2[1]);
+const aa=(LEN[3]**2-LEN[2]**2+dd*dd)/(2*dd);
+const hh=Math.sqrt(Math.max(0,LEN[3]**2-aa*aa));
+const ux=P2[0]/dd, uy=P2[1]/dd;
+const P3=[aa*ux-hh*uy, aa*uy+hh*ux];
+const poly=[P0,P1,P2,P3];
+const dir=[],nrm=[];
+poly.forEach((p,i)=>{const q=poly[(i+1)%4];const dx=q[0]-p[0],dy=q[1]-p[1],l=Math.hypot(dx,dy);dir.push([dx/l,dy/l]);nrm.push([dy/l,-dx/l]);});
+
+/* kind: room | service | wash | seat | exit | escalator | stairs */
+const blocks=[
+ {side:0,a:0,b:6.5,k:'room'},{side:0,a:6.5,b:12,k:'room'},{side:0,a:12,b:18,k:'room'},{side:0,a:18,b:23.84,k:'room'},
+ {side:1,a:0,b:2.5,k:'room'},{side:1,a:2.5,b:4.5,k:'room'},{side:1,a:5,b:6.5,k:'exit'},{side:1,a:6.5,b:9.52,k:'service'},
+ {side:2,a:0.5,b:3.5,k:'wash'},{side:2,a:3.5,b:9,k:'room'},{side:2,a:9,b:14.5,k:'room'},{side:2,a:14.5,b:18,k:'room'},{side:2,a:18,b:22,k:'room'},
+ {side:3,a:3,b:7,k:'seat'},{side:3,a:7,b:11.33,k:'room'}
+];
+
+/* ---------- geometry helpers ---------- */
+const base=CUR*FL;
+const V=(x,y,h)=>new THREE.Vector3(x,h||0,-y);
+function offsetPoly(pl,d){ // d>0 outward
+  const n=pl.length,lines=[];
+  for(let i=0;i<n;i++){const p=pl[i],q=pl[(i+1)%n];const dx=q[0]-p[0],dy=q[1]-p[1],l=Math.hypot(dx,dy);
+    lines.push({p:[p[0]+dy/l*d,p[1]-dx/l*d],d:[dx/l,dy/l]});}
+  return lines.map((L2,i)=>{const L1=lines[(i+n-1)%n];
+    const den=L1.d[0]*L2.d[1]-L1.d[1]*L2.d[0];
+    const t=((L2.p[0]-L1.p[0])*L2.d[1]-(L2.p[1]-L1.p[1])*L2.d[0])/den;
+    return [L1.p[0]+L1.d[0]*t,L1.p[1]+L1.d[1]*t];});
+}
+const outer=offsetPoly(poly,DEPTH), inner=offsetPoly(poly,-CW);
+const sidePt=(i,t,o)=>[poly[i][0]+dir[i][0]*t+nrm[i][0]*o, poly[i][1]+dir[i][1]*t+nrm[i][1]*o];
+const ang=i=>Math.atan2(dir[i][1],dir[i][0]);
+const hdir=h=>{const r=h*Math.PI/180;return new THREE.Vector3(Math.sin(r),0,-Math.cos(r));};
+
+/* ---------- scene ---------- */
+const canvas=document.getElementById('c');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(50,1,0.1,400);
+const controls=new THREE.OrbitControls(camera,canvas);
+controls.enableDamping=true;controls.maxPolarAngle=Math.PI/2.05;controls.minDistance=3;controls.maxDistance=90;
+scene.add(new THREE.HemisphereLight(0xffffff,0x445055,0.9));
+const sun=new THREE.DirectionalLight(0xffffff,0.55);sun.position.set(20,40,15);scene.add(sun);
+
+const mats={
+ slab:new THREE.MeshLambertMaterial({color:0xc9a77a}),
+ ground:new THREE.MeshLambertMaterial({color:0x6b5a45,transparent:true,opacity:.55}),
+ rail:new THREE.MeshLambertMaterial({color:0xffffff,transparent:true,opacity:.5}),
+ room:new THREE.MeshLambertMaterial({color:0x7fb3b8,transparent:true,opacity:.45}),
+ service:new THREE.MeshLambertMaterial({color:0x2b3436}),
+ wash:new THREE.MeshLambertMaterial({color:0x8d98a8,transparent:true,opacity:.7}),
+ exit:new THREE.MeshLambertMaterial({color:0x7a2b2b}),
+ seat:new THREE.MeshLambertMaterial({color:0x2f6b4a}),
+ step:new THREE.MeshLambertMaterial({color:0xd8b07a}),
+ esc:new THREE.MeshLambertMaterial({color:0x56626a}),
+ mat:new THREE.MeshLambertMaterial({color:0xa5262e}),
+ bar:new THREE.MeshLambertMaterial({color:0xe3c28f}),
+};
+const edgeMat=new THREE.LineBasicMaterial({color:0x1d2a2e,transparent:true,opacity:.6});
+function shapeOf(pts){const s=new THREE.Shape();pts.forEach((p,i)=>i?s.lineTo(p[0],p[1]):s.moveTo(p[0],p[1]));s.closePath();return s;}
+
+// The survey constants above describe the loop A→B→C→D the wrong way round (a mirror image of the
+// real floor). The building is drawn mirrored (y → −y) so it matches the app's corrected map data.
+const building=new THREE.Group();building.scale.z=-1;scene.add(building);
+const toMap=p=>[p[0],-p[1]];   // survey point → app map point
+// one group per storey: viewing the ground floor hides floor 1 so you can see in
+const upper=new THREE.Group(), ground=new THREE.Group();building.add(upper);building.add(ground);
+// floor 1 slab with the atrium void
+{const s=shapeOf(outer);const h=new THREE.Path();[...inner].reverse().forEach((p,i)=>i?h.lineTo(p[0],p[1]):h.moveTo(p[0],p[1]));h.closePath();s.holes.push(h);
+ const g=new THREE.ExtrudeGeometry(s,{depth:0.3,bevelEnabled:false});g.rotateX(-Math.PI/2);
+ const m=new THREE.Mesh(g,mats.slab);m.position.y=base-0.3;upper.add(m);}
+// railing around the void
+for(let i=0;i<4;i++){const a=inner[i],b=inner[(i+1)%4];const l=Math.hypot(b[0]-a[0],b[1]-a[1]);
+  const m=new THREE.Mesh(new THREE.BoxGeometry(l,1.1,0.06),mats.rail);
+  m.position.copy(V((a[0]+b[0])/2,(a[1]+b[1])/2,base+0.55));m.rotation.y=Math.atan2(b[1]-a[1],b[0]-a[0]);upper.add(m);}
+
+const pickable=[], pick0=[];
+blocks.forEach(p=>{
+  const mid=(p.a+p.b)/2,w=Math.max(0.2,p.b-p.a-0.12);
+  const lp=sidePt(p.side,mid,DEPTH/2);
+  if(['room','service','wash','exit'].includes(p.k)){
+    const m=new THREE.Mesh(new THREE.BoxGeometry(w,RH,DEPTH-0.15),mats[p.k]);
+    m.position.copy(V(lp[0],lp[1],base+RH/2));m.rotation.y=ang(p.side);upper.add(m);
+    // a tap on the room means its door: report the corridor point in front of it
+    m.userData.door=sidePt(p.side,mid,-0.5);pickable.push(m);
+    const e=new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry),edgeMat);e.position.copy(m.position);e.rotation.copy(m.rotation);upper.add(e);
+  }
+  if(p.k==='seat'){ // booths along the wall, bar table along the railing
+    const bp=sidePt(p.side,mid,-0.6);
+    const m=new THREE.Mesh(new THREE.BoxGeometry(w,1.1,1.0),mats.seat);
+    m.position.copy(V(bp[0],bp[1],base+0.55));m.rotation.y=ang(p.side);upper.add(m);
+    const tp=sidePt(p.side,mid,-1.85);
+    const bar=new THREE.Mesh(new THREE.BoxGeometry(w,0.08,0.45),mats.bar);
+    bar.position.copy(V(tp[0],tp[1],base+1.1));bar.rotation.y=ang(p.side);upper.add(bar);
+  }
+});
+// mattress area in front of F and G
+for(let i=0;i<5;i++){const m=new THREE.Mesh(new THREE.BoxGeometry(0.9,0.2,1.9),mats.mat);
+  const q=sidePt(1,0.6+i*1.05,-0.9);m.position.copy(V(q[0],q[1],base+0.1));m.rotation.y=ang(1)+Math.PI/2;upper.add(m);}
+// main staircase: from the B-C corner down along side C, inside the void
+{const n=18,rise=FL/n,run=0.35;const o=sidePt(2,0.8,-(CW+1.8)),t=ang(2);
+ for(let k=0;k<n;k++){const top=FL-(k+1)*rise,hgt=Math.max(top,0.05);
+  const m=new THREE.Mesh(new THREE.BoxGeometry(run,hgt,3.0),mats.step);
+  m.position.copy(V(o[0]+dir[2][0]*(run*k+run/2),o[1]+dir[2][1]*(run*k+run/2),hgt/2));m.rotation.y=t;building.add(m);}}
+/* ---------- ground floor (survey "Ground floor 3D map", draft) ---------- */
+{const M=(c,o)=>new THREE.MeshLambertMaterial(o?{color:c,transparent:true,opacity:o}:{color:c});
+ const gm={lift:M(0x2d4a52),stage:M(0x1f3a2e),desk:M(0xc4731d),sec:M(0x3b5b8c),door:M(0xd9831f,.55),
+           zone:M(0xe6d6aa,.55),pantry:M(0xd2b98a),counter:M(0x4a3a2c)};
+ const box=(w,h,d,mat,pt,b,rot,edges)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);
+   m.position.copy(V(pt[0],pt[1],b+h/2));m.rotation.y=rot;ground.add(m);
+   if(edges){const e=new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry),edgeMat);e.position.copy(m.position);e.rotation.copy(m.rotation);ground.add(e);}
+   return m;};
+ const patch=(pts,mat,y)=>{const geo=new THREE.ShapeGeometry(shapeOf(pts));geo.rotateX(-Math.PI/2);const m=new THREE.Mesh(geo,mat);m.position.y=y;ground.add(m);};
+ const slabOf=(pts,mat)=>{const g=new THREE.ExtrudeGeometry(shapeOf(pts),{depth:0.3,bevelEnabled:false});g.rotateX(-Math.PI/2);const m=new THREE.Mesh(g,mat);m.position.y=-0.3;ground.add(m);};
+ slabOf(outer,mats.slab);
+ // kind: room | service | wash | exit | lift | door | desk | secdesk
+ [{side:3,a:3.5,b:5.5,k:'door'},{side:3,a:5.8,b:7.8,k:'desk'},{side:3,a:1.2,b:3.2,k:'secdesk'},{side:3,a:9.2,b:11.33,k:'wash'},
+  {side:0,a:0.45,b:4.4,k:'lift'},{side:2,a:20.4,b:23.46,k:'room'},{side:2,a:16.9,b:20.4,k:'room'},{side:2,a:13.4,b:16.9,k:'room'},{side:2,a:9.9,b:13.4,k:'room'},
+  {side:1,a:5,b:6.5,k:'exit'},{side:1,a:6.5,b:9.52,k:'service'}].forEach(p=>{
+   const mid=(p.a+p.b)/2,w=Math.max(0.2,p.b-p.a-0.12),rot=ang(p.side);
+   if(['room','service','wash','exit','lift'].includes(p.k)){
+     const d=p.k==='lift'?2.6:DEPTH-0.15;
+     const m=box(w,RH,d,gm[p.k]||mats[p.k],sidePt(p.side,mid,d/2),0,rot,true);
+     m.userData.door=sidePt(p.side,mid,-0.5);pick0.push(m);
+   }
+   if(p.k==='door')box(w,2.4,0.15,gm.door,sidePt(p.side,mid,0.1),0,rot);
+   if(p.k==='desk'||p.k==='secdesk')box(w,1.1,0.9,p.k==='desk'?gm.desk:gm.sec,sidePt(p.side,mid,-1.5),0,rot);
+ });
+ patch(offsetPoly(poly,-CW-0.4),gm.zone,0.04);                       // seating zone in the atrium
+ box(5,0.6,2.5,gm.stage,sidePt(3,6.8,-9.6),0,ang(3),true);              // stage
+ [3.8,4.5,5.2].forEach(t=>box(0.12,1.0,1.1,mats.esc,sidePt(3,t,-2.6),0,ang(3)+Math.PI/2)); // entrance gates
+ slabOf([sidePt(0,4.9,0),sidePt(0,23.84,0),sidePt(0,23.84,10),sidePt(0,4.9,10)],gm.pantry); // pantry bump-out beyond side A
+ patch([sidePt(0,5.9,5.5),sidePt(0,18.9,5.5),sidePt(0,18.9,9.5),sidePt(0,5.9,9.5)],gm.zone,0.05);   // team seating
+ box(6.5,1.1,0.7,gm.counter,sidePt(0,22.2,6),0,ang(0)+Math.PI/2,true);   // pantry counter
+ // two escalator lanes along side D: foot at the A (pantry) end, rising towards the C end to floor 1
+ [-6.6,-5.2].forEach(o=>{
+   const a=sidePt(3,2,o),b=sidePt(3,9,o),len=7,drop=FL-0.2,L2=Math.hypot(len,drop);
+   const g=new THREE.Group();g.position.copy(V((a[0]+b[0])/2,(a[1]+b[1])/2,(FL+0.2)/2));g.rotation.y=Math.atan2(b[1]-a[1],b[0]-a[0]);
+   const m=new THREE.Mesh(new THREE.BoxGeometry(L2,0.45,1.1),mats.esc);m.rotation.z=-Math.atan2(drop,len);g.add(m);building.add(g);});
+}
+
+/* ---------- any other building: a basic 3D model built from its map data ---------- */
+const genericMats={
+  corridor:new THREE.MeshLambertMaterial({color:0xead7ae}),
+  floor:new THREE.MeshLambertMaterial({color:0xb79a72}),
+  Shop:new THREE.MeshLambertMaterial({color:0x7fb3b8,transparent:true,opacity:.55}),
+  Food:new THREE.MeshLambertMaterial({color:0xe0954a,transparent:true,opacity:.8}),
+  Facility:mats.wash, Exit:mats.exit, Stairs:mats.esc, Entrance:new THREE.MeshLambertMaterial({color:0x22c55e,transparent:true,opacity:.6}),
+};
+// width, depth, height of the block behind a place's door, by category
+const blockSize={Shop:[5,6,3.4],Food:[9,7,3.2],Facility:[4,4,3],Exit:[2.4,0.5,3],Entrance:[5,0.5,3.4],Stairs:[2.2,6,0.9]};
+let mode3d='atrium', genericGroup=null, genericPick=[], gBounds=null;
+function setVenue(v){
+  dispose(genericGroup);genericGroup=null;genericPick=[];
+  if(!v||v.id==='atrium-blr'){mode3d='atrium';building.visible=true;gBounds=null;return;}
+  mode3d='generic';building.visible=false;
+  vf=v.fl||0;floorPlane.constant=-fb(vf);const base=fb(vf);
+  const g=new THREE.Group(), byId={};
+  v.nodes.forEach(n=>byId[n.i]=n.p);
+  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  [...v.nodes.map(n=>n.p),...v.pins.map(p=>p.p)].forEach(p=>{x0=Math.min(x0,p[0]);y0=Math.min(y0,p[1]);x1=Math.max(x1,p[0]);y1=Math.max(y1,p[1]);});
+  const pad=8;
+  const slab=new THREE.Mesh(new THREE.BoxGeometry(x1-x0+2*pad,0.3,y1-y0+2*pad),genericMats.floor);
+  slab.position.copy(V((x0+x1)/2,(y0+y1)/2,base-0.15));g.add(slab);
+  // walkable corridors: 3 m strips with round joints
+  v.edges.forEach(([a,b])=>{const A=byId[a],B=byId[b];if(!A||!B)return;const L=Math.hypot(B[0]-A[0],B[1]-A[1]);if(L<0.01)return;
+    const m=new THREE.Mesh(new THREE.BoxGeometry(L,0.06,3.0),genericMats.corridor);
+    m.position.copy(V((A[0]+B[0])/2,(A[1]+B[1])/2,base+0.03));m.rotation.y=Math.atan2(B[1]-A[1],B[0]-A[0]);g.add(m);});
+  v.nodes.forEach(n=>{const c=new THREE.Mesh(new THREE.CylinderGeometry(1.5,1.5,0.06,20),genericMats.corridor);c.position.copy(V(n.p[0],n.p[1],base+0.03));g.add(c);});
+  // a block behind every place, its open side facing the door
+  v.pins.forEach(p=>{
+    if(p.f==null)return;
+    const r=p.f*Math.PI/180,dir=[Math.sin(r),Math.cos(r)];
+    const [w,d,h]=blockSize[p.c]||[4,4,3];
+    const c=[p.p[0]+dir[0]*(0.5+d/2),p.p[1]+dir[1]*(0.5+d/2)];
+    const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),genericMats[p.c]||genericMats.Shop);
+    m.position.copy(V(c[0],c[1],base+h/2));m.rotation.y=Math.atan2(-dir[0],dir[1]);
+    m.userData.mapDoor=p.p;g.add(m);genericPick.push(m);
+    const e=new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry),edgeMat);e.position.copy(m.position);e.rotation.copy(m.rotation);g.add(e);
+  });
+  scene.add(g);genericGroup=g;gBounds={x0,y0,x1,y1};
+  if(mode==='overview')goal=overview();
+}
+
+/* ---------- labels ---------- */
+// fixed on-screen size (sizeAttenuation off): readable far away, never a wall of text up close
+function label(text,pos,bg,px){
+  const c=document.createElement('canvas');const ctx=c.getContext('2d');
+  const fs=44;ctx.font='600 '+fs+'px sans-serif';const w=Math.ceil(ctx.measureText(text).width)+36;
+  c.width=w;c.height=fs+26;ctx.font='600 '+fs+'px sans-serif';
+  ctx.fillStyle=bg||'rgba(20,26,28,.86)';const r=22;
+  ctx.beginPath();ctx.moveTo(r,0);ctx.arcTo(w,0,w,c.height,r);ctx.arcTo(w,c.height,0,c.height,r);ctx.arcTo(0,c.height,0,0,r);ctx.arcTo(0,0,w,0,r);ctx.fill();
+  ctx.fillStyle='#fff';ctx.textBaseline='middle';ctx.fillText(text,18,c.height/2+2);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false,transparent:true,sizeAttenuation:false}));
+  const sc=(px||22)/c.height/window.innerHeight;sp.scale.set(w*sc,c.height*sc,1);sp.position.copy(pos);sp.renderOrder=10;return sp;
+}
+function dispose(o){if(!o)return;scene.remove(o);o.traverse(x=>{x.geometry&&x.geometry.dispose();if(x.material){x.material.map&&x.material.map.dispose();x.material.dispose();}});}
+
+/* ---------- app-driven state ---------- */
+let places=[], labels=null, startObj=null, destObj=null, routeObj=null, userObj=null, trailObj=null;
+let route=null, progress=0, drawnProgress=-1, startPos=null, startFloor=1, destId=null, user=null;
+// the storey being looked at, and the height of a storey's floor
+let vf=1;
+const fb=f=>(f==null?vf:f)*FL;
+
+function pinMarker(color,letter){
+  const g=new THREE.Group();
+  const stick=new THREE.Mesh(new THREE.CylinderGeometry(0.04,0.04,1.6,8),new THREE.MeshBasicMaterial({color}));stick.position.y=0.8;g.add(stick);
+  const head=new THREE.Mesh(new THREE.SphereGeometry(0.32,20,14),new THREE.MeshLambertMaterial({color}));head.position.y=1.75;g.add(head);
+  const ring=new THREE.Mesh(new THREE.RingGeometry(0.35,0.55,32),new THREE.MeshBasicMaterial({color,transparent:true,opacity:.6,side:THREE.DoubleSide}));
+  ring.rotation.x=-Math.PI/2;ring.position.y=0.03;g.add(ring);
+  const l=label(letter,new THREE.Vector3(0,2.45,0),'#'+color.toString(16).padStart(6,'0'),13);g.add(l);
+  return g;
+}
+function rebuildLabels(){
+  dispose(labels);labels=new THREE.Group();
+  places.forEach(p=>{
+    const hl=p.id===destId;
+    if(p.f!==vf&&!hl)return;   // only this storey's labels (and the destination's)
+    const sp=label(p.name,V(p.x,p.y,fb(p.f)+(hl?3.4:2.6)),hl?'rgba(22,163,74,.95)':'rgba(20,26,28,.82)',hl?14:11);
+    sp.userData.prio=hl?2:0;labels.add(sp);
+  });
+  scene.add(labels);
+}
+function rebuildRoute(){
+  dispose(routeObj);routeObj=null;drawnProgress=progress;
+  if(!route||route.length<2)return;
+  routeObj=new THREE.Group();
+  // split the polyline at the current progress: walked part dim, the rest bright
+  const done=[],todo=[];let acc=0;
+  for(let i=0;i<route.length;i++){
+    const p=route[i];
+    if(i>0){const q=route[i-1],seg=Math.hypot(p[0]-q[0],p[1]-q[1]);
+      if(acc<progress&&acc+seg>=progress&&seg>0){const t=(progress-acc)/seg,m=[q[0]+(p[0]-q[0])*t,q[1]+(p[1]-q[1])*t,t<0.5?q[2]:p[2]];done.push(m);todo.push(m);}
+      acc+=seg;}
+    if(acc<=progress)done.push(p);
+    else{if(!todo.length&&done.length)todo.push(done[done.length-1]);todo.push(p);}
+  }
+  const tube=(pts,color,r)=>{if(pts.length<2)return;
+    const v=pts.map(p=>V(p[0],p[1],fb(p[2])+0.12));   // a storey change draws as a slope (the stairs)
+    const curve=new THREE.CurvePath();for(let i=1;i<v.length;i++)if(v[i].distanceTo(v[i-1])>1e-3)curve.add(new THREE.LineCurve3(v[i-1],v[i]));
+    if(!curve.curves.length)return;
+    const m=new THREE.Mesh(new THREE.TubeGeometry(curve,Math.max(8,curve.curves.length*24),r,8,false),new THREE.MeshBasicMaterial({color,depthTest:false,transparent:true,opacity:.95}));
+    m.renderOrder=9;routeObj.add(m);};
+  tube(done,0x1f6b3d,0.1);tube(todo,0x22c55e,0.16);
+  scene.add(routeObj);
+}
+// the path walked while going the wrong way: red, drawn over the (still green) route
+function setTrail(pts,f){
+  dispose(trailObj);trailObj=null;
+  if(!pts||pts.length<2)return;
+  const v=pts.map(p=>V(p[0],p[1],fb(f)+0.16));
+  const curve=new THREE.CurvePath();for(let i=1;i<v.length;i++)if(v[i].distanceTo(v[i-1])>1e-3)curve.add(new THREE.LineCurve3(v[i-1],v[i]));
+  if(!curve.curves.length)return;
+  trailObj=new THREE.Mesh(new THREE.TubeGeometry(curve,Math.max(8,curve.curves.length*12),0.17,8,false),
+    new THREE.MeshBasicMaterial({color:0xef4444,depthTest:false,transparent:true,opacity:.95}));
+  trailObj.renderOrder=10;scene.add(trailObj);
+}
+let wrongNow=false;
+function userMarker(){
+  const g=new THREE.Group();
+  const s=new THREE.Shape();s.moveTo(0,0.75);s.lineTo(0.5,-0.45);s.lineTo(0,-0.2);s.lineTo(-0.5,-0.45);s.closePath();
+  const geo=new THREE.ExtrudeGeometry(s,{depth:0.12,bevelEnabled:false});geo.rotateX(-Math.PI/2);
+  const arrow=new THREE.Mesh(geo,new THREE.MeshLambertMaterial({color:0x60a5fa}));arrow.position.y=0.15;arrow.renderOrder=11;g.add(arrow);g.userData.arrow=arrow;
+  const pulse=new THREE.Mesh(new THREE.RingGeometry(0.6,0.75,40),new THREE.MeshBasicMaterial({color:0x60a5fa,transparent:true,opacity:.6,side:THREE.DoubleSide,depthTest:false}));
+  pulse.rotation.x=-Math.PI/2;pulse.position.y=0.05;g.add(pulse);g.userData.pulse=pulse;g.userData.pulseMat=pulse.material;
+  return g;
+}
+
+/* ---------- camera: smooth flights between views ---------- */
+let goal=null, mode='overview', userDriven=false;
+function fly(pos,target){goal={pos,target};}
+function overview(){
+  if(mode3d==='generic'&&gBounds){
+    const b=gBounds,cx=(b.x0+b.x1)/2,cy=(b.y0+b.y1)/2,w=b.x1-b.x0,h=b.y1-b.y0,portrait=camera.aspect<1;
+    // look along the long side on a portrait phone so the whole building fits
+    const alongX=portrait?w>=h:w<h, span=Math.max(w,h,20)*(portrait?1.4:0.9);
+    const b0=fb();
+    return alongX?{pos:V(cx-span*0.95,cy,b0+span*0.95),target:V(cx+1,cy,b0)}
+                 :{pos:V(cx,cy-span*0.95,b0+span*0.95),target:V(cx,cy+1,b0)};
+  }
+  const cx=(P0[0]+P1[0]+P2[0]+P3[0])/4, cy=-(P0[1]+P1[1]+P2[1]+P3[1])/4;
+  const portrait=camera.aspect<1;
+  // portrait phones look along the long side so the whole floor fits
+  const r=portrait?36:28;
+  const b0=fb();
+  return portrait?{pos:V(cx-r*0.95,cy-r*0.12,b0+r*0.95),target:V(cx+1,cy,b0)}
+                 :{pos:V(cx-r*0.2,cy-r*0.9,b0+r*0.8),target:V(cx,cy,b0)};
+}
+function around(x,y,headingDeg,dist,height,fl){
+  const f=hdir(headingDeg);const t=V(x,y,fb(fl));
+  return {pos:t.clone().addScaledVector(f,-dist).add(new THREE.Vector3(0,height,0)),target:t};
+}
+function fitRoute(){
+  if(!route||!route.length)return overview();
+  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;route.forEach(p=>{x0=Math.min(x0,p[0]);y0=Math.min(y0,p[1]);x1=Math.max(x1,p[0]);y1=Math.max(y1,p[1]);});
+  const cx=(x0+x1)/2,cy=(y0+y1)/2,span=Math.max(8,Math.hypot(x1-x0,y1-y0));
+  const s=route[0],e=route[route.length-1];
+  const h=Math.atan2(e[0]-s[0],e[1]-s[1])*180/Math.PI;  // look from the start toward the end
+  const d=span*(camera.aspect<1?1.15:0.8);
+  return around(cx,cy,h,d,d*0.9);
+}
+function followGoal(){
+  if(!user)return null;
+  const f=hdir(user.h);
+  const b0=fb(user.f);
+  const t=V(user.x,user.y,b0).addScaledVector(f,2.5);
+  return {pos:V(user.x,user.y,b0).addScaledVector(f,-6.5).add(new THREE.Vector3(0,5,0)),target:t};
+}
+
+/* ---------- taps ---------- */
+let down=null, gesturing=false;
+const ray=new THREE.Raycaster(), floorPlane=new THREE.Plane(new THREE.Vector3(0,1,0),-base);
+canvas.addEventListener('pointerdown',e=>{gesturing=true;down={x:e.clientX,y:e.clientY,t:performance.now()};});
+// only a real drag/pinch takes the camera away from the app (a tap must not)
+canvas.addEventListener('pointermove',e=>{if(down&&!userDriven&&Math.hypot(e.clientX-down.x,e.clientY-down.y)>10){goal=null;userDriven=true;bridge.onGesture();}});
+canvas.addEventListener('pointerup',e=>{
+  gesturing=false;
+  if(!down)return;const d=down;down=null;
+  if(Math.hypot(e.clientX-d.x,e.clientY-d.y)>10||performance.now()-d.t>450)return;
+  const r=canvas.getBoundingClientRect();
+  ray.setFromCamera({x:(e.clientX-r.left)/r.width*2-1,y:-(e.clientY-r.top)/r.height*2+1},camera);
+  const hit=ray.intersectObjects(mode3d==='atrium'?(vf===0?pick0:pickable):genericPick,false)[0];
+  if(hit){const p=hit.object.userData.mapDoor||toMap(hit.object.userData.door);bridge.onTap(p[0],p[1]);return;}
+  const v=new THREE.Vector3();if(ray.ray.intersectPlane(floorPlane,v))bridge.onTap(v.x,-v.z);
+});
+canvas.addEventListener('pointercancel',()=>{gesturing=false;down=null;});
+
+/* ---------- API for the app ---------- */
+window.R3={
+  setPlaces(list){places=list||[];rebuildLabels();},
+  setStart(x,y,f){dispose(startObj);startObj=null;startPos=(x==null)?null:[x,y];startFloor=f==null?vf:f;
+    if(startPos){startObj=pinMarker(0x3b82f6,'A');startObj.position.copy(V(x,y,fb(startFloor)));scene.add(startObj);}},
+  setDest(id){dispose(destObj);destObj=null;destId=id;rebuildLabels();
+    const p=places.find(q=>q.id===id);if(p){destObj=pinMarker(0x22c55e,'B');destObj.position.copy(V(p.x,p.y,fb(p.f)));scene.add(destObj);}},
+  setRoute(pts){route=pts;progress=0;rebuildRoute();},
+  setProgress(s){progress=s;if(Math.abs(progress-drawnProgress)>0.25)rebuildRoute();},
+  setUser(x,y,h,f){
+    if(x==null){dispose(userObj);userObj=null;user=null;return;}
+    user={x,y,h,f:f==null?vf:f};if(!userObj){userObj=userMarker();scene.add(userObj);R3.setWrong(wrongNow);}
+    userObj.position.copy(V(x,y,fb(user.f)));userObj.rotation.y=-h*Math.PI/180;
+    if(mode==='follow'&&!userDriven)goal=followGoal();
+  },
+  setTrail(pts,f){setTrail(pts,f);},
+  /** Which storey to look at: the ground floor hides floor 1 so you can see into it. */
+  setFloor(f){vf=f;upper.visible=f>=1;floorPlane.constant=-fb(f);rebuildLabels();if(mode==='overview'&&!userDriven)goal=overview();},
+  setVenue(v){setVenue(v);},
+  /** Going the wrong way: the arrow and its pulse turn red. */
+  setWrong(w){wrongNow=!!w;if(userObj){const c=wrongNow?0xef4444:0x60a5fa;userObj.userData.arrow.material.color.setHex(c);userObj.userData.pulseMat.color.setHex(c);}},
+  /** overview | start | route | follow — flies the camera; a gesture pauses it until the next call.
+   *  heading: which way to look at the start when there is no route yet. */
+  view(m,heading){mode=m;userDriven=false;
+    if(m==='overview')goal=overview();
+    else if(m==='start'&&startPos){const h=route&&route.length>1?Math.atan2(route[1][0]-route[0][0],route[1][1]-route[0][1])*180/Math.PI:(heading||0);const far=camera.aspect<1;goal=around(startPos[0],startPos[1],h,far?15:10,far?13:9,startFloor);}
+    else if(m==='route')goal=fitRoute();
+    else if(m==='follow')goal=followGoal();
+  },
+};
+
+/* ---------- loop ---------- */
+// sized in px: inside an Android WebView percentage heights can resolve to 0
+function resize(){const w=window.innerWidth,h=window.innerHeight;if(!w||!h)return;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();}
+window.addEventListener('resize',resize);if(window.ResizeObserver)new ResizeObserver(resize).observe(document.documentElement);resize();
+{const o=overview();camera.position.copy(o.pos);controls.target.copy(o.target);controls.update();}
+// hide labels that would overlap a more important (destination) or nearer one
+let lastDeclutter=0;
+function declutter(){
+  if(!labels)return;
+  const H=window.innerHeight,W=window.innerWidth,taken=[];
+  const list=labels.children.map(sp=>({sp,d:sp.position.distanceTo(camera.position)}))
+    .sort((a,b)=>(b.sp.userData.prio-a.sp.userData.prio)||(a.d-b.d));
+  list.forEach(({sp})=>{
+    const v=sp.position.clone().project(camera);
+    if(v.z>1){sp.visible=false;return;}
+    const x=(v.x+1)/2*W,y=(1-v.y)/2*H,w=sp.scale.x*H/2+4,h=sp.scale.y*H/2+3;
+    const r={x0:x-w,x1:x+w,y0:y-h,y1:y+h};
+    const hit=taken.some(t=>r.x0<t.x1&&r.x1>t.x0&&r.y0<t.y1&&r.y1>t.y0);
+    sp.visible=!hit;if(!hit)taken.push(r);
+  });
+}
+let last=performance.now();
+(function loop(now){
+  requestAnimationFrame(loop);
+  const dt=Math.min(0.1,(now-last)/1000);last=now;
+  if(goal){const k=1-Math.exp(-dt*(mode==='follow'?4:2.6));
+    camera.position.lerp(goal.pos,k);controls.target.lerp(goal.target,k);
+    if(mode!=='follow'&&camera.position.distanceTo(goal.pos)<0.02)goal=null;}
+  if(userObj){const p=userObj.userData.pulse,ph=(now/1200)%1;p.scale.setScalar(1+ph*1.6);p.material.opacity=.6*(1-ph);}
+  if(now-lastDeclutter>200){lastDeclutter=now;declutter();}
+  controls.update();renderer.render(scene,camera);
+})(last);
+bridge.onReady();
+})();
+</script>
+</body>
+</html>
